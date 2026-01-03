@@ -12,6 +12,13 @@ import time
 import os
 import random
 
+# Load .env file for local development
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass  # dotenv not installed, that's fine
+
 from generate_memes import MemeGenerator, MEME_TEMPLATES, TEMPLATES_DIR, OPENAI_AVAILABLE
 
 # Image selector component
@@ -80,10 +87,10 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-# Initialize generator (cached)
+# Initialize generator (cached without API key - key set separately)
 @st.cache_resource
-def get_generator(api_key: str = None):
-    gen = MemeGenerator(openai_api_key=api_key)
+def get_generator():
+    gen = MemeGenerator()
     return gen
 
 
@@ -107,16 +114,28 @@ with st.sidebar:
     # OpenAI API Key
     st.subheader("🤖 AI Settings")
 
+    # Auto-load from environment variable
+    env_api_key = os.environ.get("OPENAI_API_KEY", "")
+
     api_key = st.text_input(
         "OpenAI API Key",
+        value=env_api_key,
         type="password",
-        help="Enter your OpenAI API key for AI-generated memes",
+        help="Enter your OpenAI API key for AI-generated memes (auto-loads from .env)",
         placeholder="sk-..."
     )
 
-    if api_key:
-        st.success("✅ API key set!")
-        os.environ["OPENAI_API_KEY"] = api_key
+    # Use env key if text input is empty (first render issue)
+    effective_api_key = api_key or env_api_key
+
+    if effective_api_key:
+        if effective_api_key == env_api_key and env_api_key:
+            st.success("✅ API key loaded from environment!")
+        elif api_key:
+            st.success("✅ API key set!")
+        os.environ["OPENAI_API_KEY"] = effective_api_key
+
+    api_key = effective_api_key  # Use this for the rest of the app
 
     available_templates = get_available_templates()
 
