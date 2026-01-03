@@ -1,0 +1,193 @@
+# PyTorch Meme Training Data
+# Format: [Meme Name] Top: text | Bottom: text
+
+# Drake Hotline Bling - Rejecting vs Approving
+[Drake] Top: Using print statements to debug | Bottom: Using a proper debugger
+[Drake] Top: Reading the documentation | Bottom: Copying code from Stack Overflow
+[Drake] Top: Writing tests first | Bottom: Testing in production
+[Drake] Top: Using for loops | Bottom: List comprehensions
+[Drake] Top: Manual memory management | Bottom: Garbage collection
+[Drake] Top: Tabs | Bottom: Spaces
+[Drake] Top: Dark mode | Bottom: Light mode at 3am
+[Drake] Top: Learning from tutorials | Bottom: Learning from error messages
+[Drake] Top: Clean code | Bottom: Code that works
+[Drake] Top: Proper variable names | Bottom: x, y, z, temp, temp2
+[Drake] Top: Using TensorFlow | Bottom: Using PyTorch
+[Drake] Top: Reading research papers | Bottom: Watching YouTube tutorials
+[Drake] Top: Training for 100 epochs | Bottom: Early stopping at 3
+[Drake] Top: Fixing the bug | Bottom: Restarting the kernel
+[Drake] Top: Understanding backpropagation | Bottom: Just calling loss.backward()
+
+# Distracted Boyfriend - Something more appealing
+[Distracted Boyfriend] Top: My model in production | Middle: A shiny new framework | Bottom: Me, a developer
+[Distracted Boyfriend] Top: My current project | Middle: A new side project idea | Bottom: Me at 2am
+[Distracted Boyfriend] Top: Debugging my code | Middle: Starting a new project | Bottom: Me
+[Distracted Boyfriend] Top: Documentation | Middle: Trial and error | Bottom: Every programmer
+[Distracted Boyfriend] Top: Stable code | Middle: Refactoring everything | Bottom: Senior developer
+[Distracted Boyfriend] Top: Sleep | Middle: One more feature | Bottom: Developer at midnight
+[Distracted Boyfriend] Top: My neural network | Middle: A bigger neural network | Bottom: Me adding more layers
+[Distracted Boyfriend] Top: CPU training | Middle: GPU training | Bottom: Deep learning researcher
+[Distracted Boyfriend] Top: Sklearn | Middle: PyTorch | Bottom: Data scientist
+[Distracted Boyfriend] Top: Simple solution | Middle: Over-engineered solution | Bottom: Software architect
+
+# One Does Not Simply - Difficulty statement
+[One Does Not Simply] Top: One does not simply | Bottom: understand neural networks
+[One Does Not Simply] Top: One does not simply | Bottom: fix a CSS bug
+[One Does Not Simply] Top: One does not simply | Bottom: write bug-free code
+[One Does Not Simply] Top: One does not simply | Bottom: stop at one epoch
+[One Does Not Simply] Top: One does not simply | Bottom: explain recursion without using recursion
+[One Does Not Simply] Top: One does not simply | Bottom: deploy to production on Friday
+[One Does Not Simply] Top: One does not simply | Bottom: read legacy code
+[One Does Not Simply] Top: One does not simply | Bottom: train a GAN on the first try
+[One Does Not Simply] Top: One does not simply | Bottom: center a div
+[One Does Not Simply] Top: One does not simply | Bottom: choose the right optimizer
+
+# Surprised Pikachu - Obvious consequence
+[Surprised Pikachu] Top: Trains model for 5 minutes | Bottom: Model doesn't converge
+[Surprised Pikachu] Top: Uses learning rate of 1.0 | Bottom: Loss explodes
+[Surprised Pikachu] Top: Doesn't normalize data | Bottom: Model predicts same value for everything
+[Surprised Pikachu] Top: Skips data augmentation | Bottom: Model overfits
+[Surprised Pikachu] Top: Doesn't save checkpoints | Bottom: Training crashes at 99%
+
+# Two Buttons - Difficult choice
+[Two Buttons] Top: More data | Bottom: More compute | Caption: Deep learning researchers
+[Two Buttons] Top: Fix the bug | Bottom: Work around it | Caption: Every programmer
+[Two Buttons] Top: Batch size 1 | Bottom: Batch size 1024 | Caption: GPU memory
+
+# Woman Yelling at Cat - Argument format
+[Woman Yelling at Cat] Top: You need to add more layers! | Bottom: The model is already overfitting
+[Woman Yelling at Cat] Top: Just use a transformer! | Bottom: It's a simple classification task
+[Woman Yelling at Cat] Top: Why isn't the model learning?! | Bottom: The labels are shuffled
+
+# Expanding Brain - Increasing intelligence/absurdity
+[Expanding Brain] Top: Using numpy | Middle: Using pandas | Bottom: Using a single list comprehension | Final: Using recursion
+[Expanding Brain] Top: SGD | Middle: Adam | Bottom: AdamW | Final: Random hyperparameter search
+
+# Is This a Pigeon - Misidentification
+[Is This a Pigeon] Top: Is this | Middle: *overfitting* | Bottom: A well-trained model?
+[Is This a Pigeon] Top: Is this | Middle: *random noise* | Bottom: A feature?
+
+# This Is Fine - Everything on fire
+[This Is Fine] Top: | Bottom: Training loss: 0.001, Validation loss: 47.3
+[This Is Fine] Top: | Bottom: Me debugging in production
+[This Is Fine] Top: | Bottom: When your model works but you don't know why
+
+# Stonks - Financial meme about gains
+[Stonks] Top: | Bottom: Accuracy goes from 49% to 51%
+[Stonks] Top: | Bottom: Added one more layer
+[Stonks] Top: | Bottom: Loss decreased by 0.0001
+
+# Change My Mind - Debate format
+[Change My Mind] Top: | Bottom: PyTorch is better than TensorFlow
+[Change My Mind] Top: | Bottom: Batch normalization is just a hack
+[Change My Mind] Top: | Bottom: Print debugging is valid
+
+# Always Has Been - Revelation format
+[Always Has Been] Top: Wait, it's all matrix multiplication? | Bottom: Always has been
+[Always Has Been] Top: Wait, it's all gradient descent? | Bottom: Always has been
+[Always Has Been] Top: Wait, it's all trial and error? | Bottom: Always has been
+
+# Bernie Sitting - Bernie in unexpected places
+[Bernie Sitting] Top: | Bottom: Me waiting for my model to train
+[Bernie Sitting] Top: | Bottom: Waiting for pip install to finish
+
+# Exit 12 - Last second decision
+[Exit 12] Top: Proper solution | Bottom: Quick hack | Caption: Me at 4:59 PM
+[Exit 12] Top: Reading docs | Bottom: Asking ChatGPT | Caption: Modern developers
+
+# Sleeping Shaq - What gets attention
+[Sleeping Shaq] Top: Critical production bug | Bottom: Someone used tabs instead of spaces
+[Sleeping Shaq] Top: Model accuracy | Bottom: Model architecture name
+
+# They're The Same Picture - Corporate needs you to find difference
+[They're The Same Picture] Top: Training data | Bottom: Test data | Caption: Corporate needs you to find the difference. They're the same picture.
+[They're The Same Picture] Top: My code | Bottom: Stack Overflow answer | Caption: They're the same picture
+
+# Batman Slapping Robin
+[Batman Slapping Robin] Top: My learning rate is- | Bottom: Did you use a scheduler?
+[Batman Slapping Robin] Top: I'll just add more lay- | Bottom: Regularization first!
+
+# Roll Safe Think About It
+[Roll Safe] Top: Can't have overfitting | Bottom: If you only use training data
+[Roll Safe] Top: Can't have bugs | Bottom: If you don't write tests
+
+# Gru's Plan
+[Gru's Plan] Top: Find dataset | Middle: Train model | Bottom: Deploy to production | Final: Users hate it
+[Gru's Plan] Top: Design architecture | Middle: Train overnight | Bottom: Check results | Final: NaN loss
+
+# SpongeBob Mocking
+[SpongeBob Mocking] Top: My code works | Bottom: mY cOdE wOrKs
+[SpongeBob Mocking] Top: I don't need comments | Bottom: i DoN't NeEd CoMmEnTs
+
+# Disaster Girl
+[Disaster Girl] Top: | Bottom: When you finally delete node_modules
+[Disaster Girl] Top: | Bottom: When you drop the production database
+
+# Hide the Pain Harold
+[Hide the Pain Harold] Top: When the demo works perfectly | Bottom: But you have no idea why
+[Hide the Pain Harold] Top: When your model gets 99% accuracy | Bottom: On training data
+
+# Success Kid
+[Success Kid] Top: Model trained overnight | Bottom: Didn't crash
+[Success Kid] Top: Wrote code | Bottom: Worked on first try
+
+# First Time? - James Franco
+[First Time] Top: | Bottom: First neural network that doesn't converge?
+
+# Panik Kalm Panik
+[Panik Kalm Panik] Top: Code doesn't work | Middle: Find solution online | Bottom: It's your own Stack Overflow answer from 3 years ago
+[Panik Kalm Panik] Top: Loss is NaN | Middle: It was a typo | Bottom: Now it's infinity
+
+# Tuxedo Winnie the Pooh
+[Tuxedo Pooh] Top: Machine learning | Bottom: Artificial intelligence
+[Tuxedo Pooh] Top: for loop | Bottom: Vectorized operations
+[Tuxedo Pooh] Top: Neural network | Bottom: Universal function approximator
+
+# Ancient Aliens
+[Ancient Aliens] Top: How does the model work so well? | Bottom: Aliens
+
+# Futurama Fry - Not Sure If
+[Not Sure If Fry] Top: Not sure if model is learning | Bottom: Or just memorizing
+[Not Sure If Fry] Top: Not sure if overfitting | Bottom: Or just good model
+
+# Anakin Padme Meme
+[Anakin Padme] Top: So the model will generalize well? | Middle: ... | Bottom: It will generalize well, right?
+[Anakin Padme] Top: So training is almost done? | Middle: ... | Bottom: Training is almost done, right?
+
+# Sad Pablo Escobar
+[Sad Pablo] Top: | Bottom: Waiting for epoch 1/1000 to finish
+
+# Flex Tape
+[Flex Tape] Top: | Middle: Dropout | Bottom: Overfitting
+[Flex Tape] Top: | Middle: More data | Bottom: Poor model performance
+
+# Types of Headaches
+[Types of Headaches] Top: Migraine / Tension / Cluster | Bottom: Debugging CUDA errors
+
+# Left Exit 12 Off Ramp
+[Left Exit 12] Top: Clean, maintainable code | Bottom: Technical debt | Caption: Me on a deadline
+
+# Trade Offer
+[Trade Offer] Top: I receive: your data | Bottom: You receive: predictions with 60% accuracy
+
+# They Don't Know
+[They Don't Know] Top: | Bottom: They don't know my model only works on the demo dataset
+
+# Math Lady / Confused Math
+[Confused Math Lady] Top: | Bottom: Me trying to understand attention mechanisms
+
+# Monkey Puppet
+[Monkey Puppet] Top: | Bottom: When someone asks how your model handles edge cases
+
+# Mr Incredible Becoming Uncanny
+[Mr Incredible Uncanny] Top: Normal data | Middle: Slightly noisy data | Bottom: Real world data | Final: Adversarial examples
+
+# Peter Parker Glasses
+[Peter Parker Glasses] Top: Raw data | Bottom: After preprocessing | Caption: Now I can see clearly
+
+# Megamind No Bitches
+[Megamind] Top: No GPU? | Bottom: *sad deep learning noises*
+
+# American Chopper Argument
+[American Chopper] Top: More epochs! | Middle: It's overfitting! | Bottom: Add regularization! | Final: Just use a pretrained model! | Last: Fine!
+

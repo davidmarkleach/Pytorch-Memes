@@ -1,0 +1,9 @@
+# In your project folder, create .gitignore with:
+.env
+*.pyc
+__pycache__/
+meme_model_final/
+generated_memes/
+.venv/
+*.lock
+cached_*
