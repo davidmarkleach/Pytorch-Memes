@@ -64,6 +64,18 @@ st.markdown("""
         padding: 10px;
         margin: 5px 0;
     }
+    /* Show more/less button in sidebar */
+    div[data-testid="stSidebar"] [data-testid="stButton"] button {
+        background: transparent !important;
+        border: 1px solid rgba(233, 69, 96, 0.5) !important;
+        color: #e94560 !important;
+        font-size: 0.8rem !important;
+        padding: 0.4rem 1rem !important;
+    }
+    div[data-testid="stSidebar"] [data-testid="stButton"] button:hover {
+        background: rgba(233, 69, 96, 0.2) !important;
+        border-color: #e94560 !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -156,14 +168,83 @@ with st.sidebar:
                         images.append(str(template_path))
                         captions.append(name)
 
+            # Show more/less toggle
+            if "show_all_templates" not in st.session_state:
+                st.session_state.show_all_templates = False
+
+            INITIAL_COUNT = 9  # Show first 9 templates (3 rows)
+
+            # Initialize selected meme in session state
+            if "selected_meme" not in st.session_state:
+                st.session_state.selected_meme = captions[0] if captions else available_templates[0]
+
+            current_selection = st.session_state.selected_meme
+
+            if st.session_state.show_all_templates or len(images) <= INITIAL_COUNT:
+                display_images = images
+                display_captions = captions
+            else:
+                # When collapsed, put selected meme first if it's not already visible
+                if current_selection in captions:
+                    sel_idx = captions.index(current_selection)
+                    if sel_idx >= INITIAL_COUNT:
+                        # Move selected to first position
+                        display_captions = [current_selection] + [c for c in captions[:INITIAL_COUNT-1] if c != current_selection]
+                        display_images = [images[sel_idx]] + [images[i] for i in range(INITIAL_COUNT-1) if captions[i] != current_selection]
+                    else:
+                        display_images = images[:INITIAL_COUNT]
+                        display_captions = captions[:INITIAL_COUNT]
+                else:
+                    display_images = images[:INITIAL_COUNT]
+                    display_captions = captions[:INITIAL_COUNT]
+
+            # Find default index (show current selection)
+            default_idx = 0
+            if current_selection in display_captions:
+                default_idx = display_captions.index(current_selection)
+
+            # Stable key - only changes when view mode changes
             selected_idx = image_select(
                 label="Click to select:",
-                images=images,
-                captions=captions,
+                images=display_images,
+                captions=display_captions,
                 use_container_width=False,
-                return_value="index"
+                return_value="index",
+                index=default_idx,
+                key=f"img_select_{st.session_state.show_all_templates}"
             )
-            selected_meme = captions[selected_idx] if selected_idx is not None else available_templates[0]
+
+            # Update selection from component
+            if selected_idx is not None and selected_idx < len(display_captions):
+                new_meme = display_captions[selected_idx]
+                if new_meme != st.session_state.selected_meme:
+                    st.session_state.selected_meme = new_meme
+
+            # "Show more" with fade effect
+            if len(images) > INITIAL_COUNT:
+                if not st.session_state.show_all_templates:
+                    # Gradient fade - clean transition to background
+                    st.markdown("""
+                    <div style="
+                        position: relative;
+                        margin-top: -20%;
+                        padding-top: 18%;
+                        margin-bottom: -20px;
+                        background: linear-gradient(to bottom, transparent 0%, #262730 80%);
+                        pointer-events: none;
+                    ">
+                    </div>
+                    """, unsafe_allow_html=True)
+
+                    if st.button(f"↓ Show all {len(images)} templates", key="show_more_btn", use_container_width=True):
+                        st.session_state.show_all_templates = True
+                        st.rerun()
+                else:
+                    if st.button("↑ Show less", key="show_less_btn", use_container_width=True):
+                        st.session_state.show_all_templates = False
+                        st.rerun()
+
+            selected_meme = st.session_state.selected_meme
         else:
             # Fallback to dropdown
             selected_meme = st.selectbox(
