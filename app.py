@@ -57,6 +57,22 @@ st.markdown("""
         padding: 10px;
         margin: 5px 0;
     }
+    /* Thumbnail selector styling */
+    div[data-testid="stSidebar"] img {
+        border-radius: 8px;
+        border: 2px solid transparent;
+        transition: all 0.2s ease;
+    }
+    div[data-testid="stSidebar"] img:hover {
+        border-color: #e94560;
+        transform: scale(1.05);
+    }
+    /* Compact buttons for template selector */
+    div[data-testid="stSidebar"] .stButton button {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+        margin-top: -5px;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -136,11 +152,65 @@ with st.sidebar:
         # Template selection (only in single mode)
         st.markdown("---")
         st.subheader("🖼️ Template")
-        selected_meme = st.selectbox(
-            "Select Meme Format",
-            available_templates,
-            index=available_templates.index("Drake") if "Drake" in available_templates else 0
-        )
+
+        # Initialize selected meme in session state
+        if "selected_meme" not in st.session_state:
+            st.session_state.selected_meme = available_templates[0] if available_templates else "Drake"
+
+        # Visual template selector with thumbnails
+        st.markdown("**Click to select:**")
+
+        # Create a scrollable container with thumbnail grid
+        cols_per_row = 3
+        for row_start in range(0, min(12, len(available_templates)), cols_per_row):
+            cols = st.columns(cols_per_row)
+            for col_idx in range(cols_per_row):
+                template_idx = row_start + col_idx
+                if template_idx < len(available_templates):
+                    meme_name = available_templates[template_idx]
+                    template_file = MEME_TEMPLATES.get(meme_name)
+
+                    with cols[col_idx]:
+                        if template_file:
+                            template_path = TEMPLATES_DIR / template_file
+                            if template_path.exists():
+                                # Show small thumbnail
+                                st.image(
+                                    str(template_path),
+                                    width=80,
+                                    caption=None
+                                )
+
+                        # Selection button
+                        is_selected = st.session_state.selected_meme == meme_name
+                        button_label = f"{'✅ ' if is_selected else ''}{meme_name[:12]}{'...' if len(meme_name) > 12 else ''}"
+
+                        if st.button(
+                            button_label,
+                            key=f"select_{meme_name}",
+                            use_container_width=True,
+                            type="primary" if is_selected else "secondary"
+                        ):
+                            st.session_state.selected_meme = meme_name
+                            # No st.rerun() needed - button click already triggers rerun
+
+        # Show more templates in expander if there are many
+        if len(available_templates) > 12:
+            with st.expander(f"Show all {len(available_templates)} templates"):
+                expander_selection = st.selectbox(
+                    "All templates",
+                    available_templates,
+                    index=available_templates.index(st.session_state.selected_meme) if st.session_state.selected_meme in available_templates else 0,
+                    key="all_templates_select"
+                )
+                if expander_selection != st.session_state.selected_meme:
+                    st.session_state.selected_meme = expander_selection
+                    # No st.rerun() needed - selectbox change already triggers rerun
+
+        # Use session state for selected meme
+        selected_meme = st.session_state.selected_meme
+
+        st.success(f"Selected: **{selected_meme}**")
 
     st.markdown("---")
     st.markdown("### 📋 Quick Tips")
@@ -260,7 +330,8 @@ else:
         mode = st.radio(
             "Text Source",
             ["Custom Text", "AI Generated (OpenAI)"] if api_key else ["Custom Text", "AI Generated (Local)"],
-            horizontal=True
+            horizontal=True,
+            key="text_source_mode"
         )
 
         if "Custom" in mode:
