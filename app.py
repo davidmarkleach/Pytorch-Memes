@@ -14,6 +14,13 @@ import random
 
 from generate_memes import MemeGenerator, MEME_TEMPLATES, TEMPLATES_DIR, OPENAI_AVAILABLE
 
+# Image selector component
+try:
+    from streamlit_image_select import image_select
+    IMAGE_SELECT_AVAILABLE = True
+except ImportError:
+    IMAGE_SELECT_AVAILABLE = False
+
 # Page config
 st.set_page_config(
     page_title="🎭 PyTorch Meme Generator",
@@ -56,22 +63,6 @@ st.markdown("""
         border-radius: 10px;
         padding: 10px;
         margin: 5px 0;
-    }
-    /* Thumbnail selector styling */
-    div[data-testid="stSidebar"] img {
-        border-radius: 8px;
-        border: 2px solid transparent;
-        transition: all 0.2s ease;
-    }
-    div[data-testid="stSidebar"] img:hover {
-        border-color: #e94560;
-        transform: scale(1.05);
-    }
-    /* Compact buttons for template selector */
-    div[data-testid="stSidebar"] .stButton button {
-        font-size: 0.75rem;
-        padding: 0.25rem 0.5rem;
-        margin-top: -5px;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -153,64 +144,35 @@ with st.sidebar:
         st.markdown("---")
         st.subheader("🖼️ Template")
 
-        # Initialize selected meme in session state
-        if "selected_meme" not in st.session_state:
-            st.session_state.selected_meme = available_templates[0] if available_templates else "Drake"
+        if IMAGE_SELECT_AVAILABLE:
+            # Visual image selector with thumbnails
+            images = []
+            captions = []
+            for name in available_templates:
+                template_file = MEME_TEMPLATES.get(name)
+                if template_file:
+                    template_path = TEMPLATES_DIR / template_file
+                    if template_path.exists():
+                        images.append(str(template_path))
+                        captions.append(name)
 
-        # Visual template selector with thumbnails
-        st.markdown("**Click to select:**")
-
-        # Create a scrollable container with thumbnail grid
-        cols_per_row = 3
-        for row_start in range(0, min(12, len(available_templates)), cols_per_row):
-            cols = st.columns(cols_per_row)
-            for col_idx in range(cols_per_row):
-                template_idx = row_start + col_idx
-                if template_idx < len(available_templates):
-                    meme_name = available_templates[template_idx]
-                    template_file = MEME_TEMPLATES.get(meme_name)
-
-                    with cols[col_idx]:
-                        if template_file:
-                            template_path = TEMPLATES_DIR / template_file
-                            if template_path.exists():
-                                # Show small thumbnail
-                                st.image(
-                                    str(template_path),
-                                    width=80,
-                                    caption=None
-                                )
-
-                        # Selection button
-                        is_selected = st.session_state.selected_meme == meme_name
-                        button_label = f"{'✅ ' if is_selected else ''}{meme_name[:12]}{'...' if len(meme_name) > 12 else ''}"
-
-                        if st.button(
-                            button_label,
-                            key=f"select_{meme_name}",
-                            use_container_width=True,
-                            type="primary" if is_selected else "secondary"
-                        ):
-                            st.session_state.selected_meme = meme_name
-                            # No st.rerun() needed - button click already triggers rerun
-
-        # Show more templates in expander if there are many
-        if len(available_templates) > 12:
-            with st.expander(f"Show all {len(available_templates)} templates"):
-                expander_selection = st.selectbox(
-                    "All templates",
-                    available_templates,
-                    index=available_templates.index(st.session_state.selected_meme) if st.session_state.selected_meme in available_templates else 0,
-                    key="all_templates_select"
-                )
-                if expander_selection != st.session_state.selected_meme:
-                    st.session_state.selected_meme = expander_selection
-                    # No st.rerun() needed - selectbox change already triggers rerun
-
-        # Use session state for selected meme
-        selected_meme = st.session_state.selected_meme
-
-        st.success(f"Selected: **{selected_meme}**")
+            selected_idx = image_select(
+                label="Click to select:",
+                images=images,
+                captions=captions,
+                use_container_width=False,
+                return_value="index"
+            )
+            selected_meme = captions[selected_idx] if selected_idx is not None else available_templates[0]
+        else:
+            # Fallback to dropdown
+            selected_meme = st.selectbox(
+                "Choose meme format",
+                available_templates,
+                index=available_templates.index("Drake") if "Drake" in available_templates else 0,
+                key="template_select"
+            )
+            st.caption("💡 Run `pip install streamlit-image-select` for visual picker")
 
     st.markdown("---")
     st.markdown("### 📋 Quick Tips")
@@ -335,11 +297,11 @@ else:
         )
 
         if "Custom" in mode:
-            top_text = st.text_area("Top Text", placeholder="Enter top text...", height=80)
-            bottom_text = st.text_area("Bottom Text", placeholder="Enter bottom text...", height=80)
+            top_text = st.text_area("Top Text", placeholder="Enter top text...", height=80, key="custom_top_text")
+            bottom_text = st.text_area("Bottom Text", placeholder="Enter bottom text...", height=80, key="custom_bottom_text")
 
             if selected_meme in ["Distracted Boyfriend", "Expanding Brain", "Gru's Plan"]:
-                middle_text = st.text_area("Middle Text (optional)", placeholder="Enter middle text...", height=80)
+                middle_text = st.text_area("Middle Text (optional)", placeholder="Enter middle text...", height=80, key="custom_middle_text")
             else:
                 middle_text = ""
             topic = ""
@@ -347,7 +309,8 @@ else:
             topic = st.text_input(
                 "Topic (optional)",
                 placeholder="e.g., programming, coffee, mondays...",
-                help="Give the AI a topic hint"
+                help="Give the AI a topic hint",
+                key="ai_topic_input"
             )
             top_text = ""
             bottom_text = ""
