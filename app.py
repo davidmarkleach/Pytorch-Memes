@@ -322,7 +322,9 @@ if batch_mode:
         st.markdown("---")
         st.header(f"🎉 Generating {num_memes} Memes about '{topic}'...")
 
-        generator = get_generator(api_key)
+        generator = get_generator()
+        if api_key:
+            generator.set_openai_key(api_key)
         generator.set_openai_key(api_key)
 
         # Progress bar
@@ -435,7 +437,9 @@ else:
     if generate_clicked:
         with st.spinner("🎭 Generating your meme..."):
             try:
-                generator = get_generator(api_key if api_key else None)
+                generator = get_generator()
+                if api_key:
+                    generator.set_openai_key(api_key)
                 if api_key:
                     generator.set_openai_key(api_key)
 
